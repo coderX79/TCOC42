@@ -1,0 +1,135 @@
+Backend Microservice Development
+Purpose: Describe the requirements for developing the Stock Price Aggregation HTTP Microservice.
+
+Content:
+
+Objective: Build a microservice to provide real-time stock price insights using test server APIs.
+Key Requirements:
+No user registration or login required; users are pre-authorized.
+Exclusively use test server APIs for data retrieval; do not use third-party APIs or create redundant APIs for users, posts, or comments.
+Minimize API calls to the test server, as each call incurs a cost that negatively affects the test score.
+Ensure responsiveness, performance, and accuracy without displaying outdated data.
+Handle potential changes in the stock exchange’s data sorting order or frequency dynamically.
+Use efficient data structures and algorithms for storage and retrieval.
+APIs to Develop:
+Average Stock Price API:
+Method: GET
+Route: http://hostname/stocks/ticker?minutes=m&aggregation=average
+Response:
+json
+
+Collapse
+
+Wrap
+
+Copy
+{
+  "averageStockPrice": 453.569744,
+  "priceHistory": [
+    { "price": 231.95296, "lastUpdatedAt": "2025-05-08T04:26:27.46584912" },
+    { "price": 124.95156, "lastUpdatedAt": "2025-05-08T04:30:23.4659403412" },
+    { "price": 459.09558, "lastUpdatedAt": "2025-05-08T04:39:14.4648874472" },
+    { "price": 998.27924, "lastUpdatedAt": "2025-05-08T04:50:03.4649036062" }
+  ]
+}
+Requirements:
+Calculate the average stock price for a given ticker over the last m minutes.
+Use any backend framework without external libraries for algorithms.
+Capture output screenshots from API clients (e.g., Insomnia or Postman) showing request body, response, and response time.
+Screenshots must be from your app’s API, not the test server.
+Correlation of Price Movement API:
+Method: GET
+Route: http://hostname/stockcorrelation?minutes=m&ticker=NVDA&ticker=PYPL
+Response:
+json
+
+Collapse
+
+Wrap
+
+Copy
+{
+  "correlation": -0.9367,
+  "stocks": {
+    "NVDA": {
+      "averagePrice": 204.000025,
+      "priceHistory": [
+        { "price": 231.95296, "lastUpdatedAt": "2025-05-08T04:26:27.46584912" },
+        { "price": 124.95156, "lastUpdatedAt": "2025-05-08T04:30:23.4659403412" },
+        { "price": 459.09558, "lastUpdatedAt": "2025-05-08T04:39:14.4648874472" },
+        { "price": 998.27924, "lastUpdatedAt": "2025-05-08T04:50:03.4649036062" }
+      ]
+    },
+    "PYPL": {
+      "averagePrice": 458.606756,
+      "priceHistory": [
+        { "price": 680.59766, "lastUpdatedAt": "2025-05-09T02:04:27.4649084652" },
+        { "price": 652.6387, "lastUpdatedAt": "2025-05-09T02:16:15.4665257682" },
+        { "price": 42.583908, "lastUpdatedAt": "2025-05-09T02:23:08.4651278882" }
+      ]
+    }
+  }
+}
+Requirements:
+Calculate Pearson’s Correlation Coefficient for price movements between two stocks over the last m minutes.
+Formula: Correlation = Cov(X,Y) / (σX * σY), where Cov(X,Y) is the covariance, and σX, σY are standard deviations.
+Handle disparities in data availability and time alignment for the two stocks.
+Support only two tickers at a time.
+Test Server APIs:
+Get Stocks API:
+Method: GET
+Route: http://20.244.56.144/evaluation-service/stocks
+Response:
+json
+
+Collapse
+
+Wrap
+
+Copy
+{
+  "stocks": {
+    "Advanced Micro Devices, Inc.": "AMD",
+    "Alphabet Inc. Class A": "GOOGL",
+    "Alphabet Inc. Class C": "GOOG",
+    "Amazon.com, Inc.": "AMZN",
+    "Amgen Inc.": "AMGN",
+    "Apple Inc.": "AAPL",
+    "Berkshire Hathaway Inc.": "BRKB",
+    "Booking Holdings Inc.": "BKNG",
+    "Broadcom Inc.": "AVGO",
+    "CSX Corporation": "CSX",
+    "Eli Lilly and Company": "LLY",
+    "Marriott International, Inc.": "MAR",
+    "Marvell Technology, Inc.": "MRVL",
+    "Meta Platforms, Inc.": "META",
+    "Microsoft Corporation": "MSFT",
+    "Nvidia Corporation": "NVDA",
+    "PayPal Holdings, Inc.": "PYPL",
+    "TSMC": "2330TW",
+    "Tesla, Inc.": "TSLA",
+    "Visa Inc.": "V"
+  }
+}
+Get Specific Stock API:
+Method: GET
+Route: http://20.244.56.144/evaluation-service/stocks/:ticker?minutes=m
+Example Route: http://20.244.56.144/evaluation-service/stocks/NVDA?minutes=50
+Response:
+json
+
+Collapse
+
+Wrap
+
+Copy
+[
+  { "price": 666.66595, "lastUpdatedAt": "2025-05-08T04:11:42.4657063062" },
+  { "price": 212.9439, "lastUpdatedAt": "2025-05-08T04:14:39.4652011052" },
+  { "price": 163.42203, "lastUpdatedAt": "2025-05-08T04:23:30.4655421262" },
+  { "price": 231.95296, "lastUpdatedAt": "2025-05-08T04:26:27.46584912" },
+  { "price": 124.95156, "lastUpdatedAt": "2025-05-08T04:30:23.4659403412" },
+  { "price": 459.09558, "lastUpdatedAt": "2025-05-08T04:39:14.4648874472" },
+  { "price": 998.27924, "lastUpdatedAt": "2025-05-08T04:50:03.4649036062" }
+]
+C
