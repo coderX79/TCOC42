@@ -7,7 +7,7 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run start"]
 
 [workflows]
-runButton = "Run"
+runButton = "Dev Server"
 
 [[workflows.workflow]]
 name = "Run"
@@ -21,6 +21,23 @@ args = "npm install"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
+
+[[workflows.workflow]]
+name = "Dev Server"
+author = 43463236
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd frontend && npm install"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node start-dev.js"
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
 
 [[ports]]
 localPort = 5000
