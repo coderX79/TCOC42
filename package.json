@@ -2,7 +2,7 @@
 {
   "name": "stock-price-aggregation-api",
   "version": "1.0.0",
-  "description": "Stock Price Aggregation Microservice",
+  "description": "Stock Price-Aggregation Microservice",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
