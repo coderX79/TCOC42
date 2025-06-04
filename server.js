@@ -27,6 +27,7 @@ const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes cache
 // Helper function to make authenticated API calls
 async function makeAuthenticatedRequest(url) {
   try {
+    console.log(`Making request to test server: ${url}`);
     const response = await axios.get(url, {
       headers: {
         'Authorization': `Bearer ${BEARER_TOKEN}`,
@@ -34,9 +35,11 @@ async function makeAuthenticatedRequest(url) {
       },
       timeout: 10000
     });
+    console.log(`Test server response received: ${response.status}`);
     return response.data;
   } catch (error) {
     console.error('API request failed:', error.message);
+    console.error('Request URL:', url);
     throw new Error(`Failed to fetch data from test server: ${error.message}`);
   }
 }
@@ -129,6 +132,19 @@ app.get('/', (req, res) => {
     message: 'Stock Price Aggregation Microservice',
     status: 'running',
     timestamp: new Date().toISOString()
+  });
+});
+
+// Configuration check endpoint
+app.get('/config', (req, res) => {
+  res.json({
+    testServerBaseUrl: TEST_SERVER_BASE_URL,
+    bearerTokenConfigured: !!BEARER_TOKEN,
+    bearerTokenPrefix: BEARER_TOKEN ? BEARER_TOKEN.substring(0, 20) + '...' : 'Not configured',
+    endpoints: {
+      getAllStocks: `${TEST_SERVER_BASE_URL}/stocks`,
+      getStockData: `${TEST_SERVER_BASE_URL}/stocks/{ticker}?minutes={minutes}`
+    }
   });
 });
 
